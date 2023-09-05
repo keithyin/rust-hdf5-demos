@@ -25,18 +25,36 @@ pub fn write_hdf5() -> String {
     filepath.to_string()
 }
 
-fn read_hdf5(filepath: String) {
+pub fn read_hdf5(filepath: String) {
     let file = File::open(&filepath).unwrap(); // open for reading
     let ds = file.dataset("group/data").unwrap();
+    
+    let data = ds.read_1d::<u8>().unwrap();
+    println!("{:?}", data);
 }
+
+
+pub fn modify_h5_dataset(filepath: String) {
+    let file = File::open_rw(&filepath).unwrap(); // open for reading
+    let ds = file.dataset("group/data").unwrap();
+    let data = ds.read_1d::<i32>().unwrap();
+    // ds.as_writer().conversion(hdf5::Conversion::Hard);
+    ds.as_datatype().unwrap().conv_to::<i32>().expect("dtype conv to error");
+    // ds.as_writer().write_slice(arr, selection)
+
+    // println!("{:?}", data);
+}
+
 
 #[cfg(test)]
 mod test {
-    use super::write_hdf5;
+    use super::{write_hdf5, read_hdf5, modify_h5_dataset};
 
 
     #[test]
     fn test_write_h5() {
-        write_hdf5();
+        let filepath = write_hdf5();
+        read_hdf5(filepath.clone());
+        modify_h5_dataset(filepath.clone());
     }
 }
