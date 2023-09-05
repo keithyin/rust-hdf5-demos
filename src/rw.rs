@@ -13,7 +13,7 @@ pub fn write_hdf5() -> String {
     // #[cfg(feature = "blosc")]
     // let builder = builder.blosc_zstd(9, true); // zstd + shuffle
     let ds = builder
-        .with_data(&[1, 2, 3, 4, 5, 6])
+        .with_data(&[1, 2, 3])
         // finalize and write the dataset
         .create("data").unwrap();
     // create an attr with fixed shape but don't write the data
@@ -37,9 +37,12 @@ pub fn read_hdf5(filepath: String) {
 pub fn modify_h5_dataset(filepath: String) {
     let file = File::open_rw(&filepath).unwrap(); // open for reading
     let ds = file.dataset("group/data").unwrap();
+    
     let data = ds.read_1d::<i32>().unwrap();
     // ds.as_writer().conversion(hdf5::Conversion::Hard);
-    ds.as_datatype().unwrap().conv_to::<i32>().expect("dtype conv to error");
+    // ds.as_datatype().unwrap().conv_to::<i32>().expect("dtype conv to error");
+    
+    ds.as_writer().conversion(hdf5::Conversion::Hard).write(&[4.0, 5.0, 6.0]).expect("write error");
     // ds.as_writer().write_slice(arr, selection)
 
     // println!("{:?}", data);
