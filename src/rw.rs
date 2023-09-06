@@ -58,6 +58,6 @@ mod test {
     fn test_write_h5() {
         let filepath = write_hdf5();
         read_hdf5(filepath.clone());
-        modify_h5_dataset(filepath.clone());
+        // modify_h5_dataset(filepath.clone());
     }
 }

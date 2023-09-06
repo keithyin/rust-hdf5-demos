@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 hdf5 = "0.8.1"
 ndarray = "0.15.6"
+glob = "0.3.1"
