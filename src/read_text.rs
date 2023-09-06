@@ -27,7 +27,6 @@ mod test {
 
     use crate::read_text::read_text;
 
-
     #[test]
     fn test_read_text() {
         let filenames = ["./tmp_files/f1.txt", "./tmp_files/f2.txt"];
