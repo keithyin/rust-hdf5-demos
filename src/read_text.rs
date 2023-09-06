@@ -1,6 +1,6 @@
 use std::fs;
 use glob::glob;
-use polars_core::prelude::*; 
+use polars::prelude::*;
 
 pub fn read_single_file(filename: &str) -> Vec<String>{
     let content = fs::read_to_string(filename).expect("read file err");
@@ -20,11 +20,13 @@ pub fn read_text(filenames: &[&str]) -> Vec<Vec<String>>{
 
 pub fn to_data_frame(data: Vec<Vec<String>>) {
 
-    let res = data.iter().map(|row| row[1].clone()).collect::<&[String]>();
+    let res = data.iter().map(|row| row[1].clone()).collect::<Vec<String>>();
 
-    // let df = df!(
-    //     "first" => 
-    // );
+     let df = df!(
+         "first" => &res
+    );
+
+    println!("{:?}", df);
 
 }
 
